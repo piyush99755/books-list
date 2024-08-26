@@ -1,9 +1,15 @@
-import Header from '../components/Header.js';
+import Header from '../Header';
+import { useNavigate } from 'react-router-dom';
 
 function AddBookPage() {
     
     const pageTitle = "Add Book";
-
+    const navigate = useNavigate();
+    function handleAddBook(event) {
+        event.preventDefault();
+        alert('Book Addded');
+        navigate('/');
+    }
     return (
       <>
         <div className="container">
@@ -31,7 +37,7 @@ function AddBookPage() {
                     type="text" name="synopsis" placeholder="Add a synopsis..." />
                 </div>
                 
-                <button className="btn btn-block">Save Book</button>
+                <button onClick ={(event) => handleAddBook(event)}className="btn btn-block">Save Book</button>
             </form>
 
         </div>

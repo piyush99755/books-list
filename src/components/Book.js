@@ -1,10 +1,12 @@
+import {Link} from 'react-router-dom';
 
 function Book({book}) {
     
 
     return (
       <>
-          <div className="book">
+         <Link to={'/book/' + book.id}>
+         <div className="book">
               {
                   book.isRead && 
                   <div className="readIt">
@@ -26,6 +28,8 @@ function Book({book}) {
                   <h3 className="book-title">{ book.title }</h3>
               </div>
           </div>
+         </Link>
+          
   
       </>
     )
