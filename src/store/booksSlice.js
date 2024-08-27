@@ -40,8 +40,10 @@ const booksSlice = createSlice({
   }
   ],
   reducers: {
-       addBook: books => {
-       ///add logic here
+       addBook: (books, action) => {
+         let newBook = action.payload; //getting new book to get its id 
+         newBook.id = books.length ? Math.max(...books.map(book => action.payload)) + 1 : 1; //getting th highest number of id
+         books.push(newBook);
        },
 
        eraseBook: (books, action) => {
