@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { selectNotes, eraseNote } from '../store/notesSlice';
+import { selectNotes, eraseNote, addNotes } from '../store/notesSlice';
 
 function Notes({bookId}) {
     
@@ -10,6 +10,35 @@ function Notes({bookId}) {
     dispatch(eraseNote(id));
 
    }
+
+   
+
+    function handleAddNote(event) {
+        event.preventDefault();
+        
+        const newNote = {
+          book_id: bookId,
+          title: document.querySelector('input[name=title]').value,
+          text: document.querySelector('textarea[name=note]').value,
+        }
+
+        if(newNote.title && newNote.text){
+            dispatch(addNotes(newNote));
+            document.querySelector('input[name=title]').value = '';
+            document.querySelector('textarea[name=note]').value = '';
+            alert('New Note Added');
+            
+
+        }else{
+            alert('Fill out all required fields');
+        }
+
+        
+    }
+        
+      
+
+        
     
     
     return (
@@ -45,7 +74,7 @@ function Notes({bookId}) {
                         <textarea type="text" name="note" placeholder="Add note" />
                     </div>
                     
-                    <button className="btn btn-block">Add Note</button>
+                    <button onClick = {(event) => handleAddNote(event)} className="btn btn-block">Add Note</button>
                 </form>
             </details>
 

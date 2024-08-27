@@ -2,24 +2,27 @@ import Notes from '../Notes';
 import {useParams, Link, useNavigate} from 'react-router-dom';
 import { selectBooks, eraseBook, toggleRead } from '../../store/booksSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { eraseBookNotes } from '../../store/notesSlice';
  
 
 function SingleBookPage() {
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     function handleEraseBook(id) {
         dispatch(eraseBook(id));
+        dispatch(eraseBookNotes(id));
         navigate('/');
     }
 
-    const {id} = useParams();
+    const {id} = useParams(); 
     const books = useSelector(selectBooks);//getting books through state created in redux...
-      const book = books.filter(book => book.id == id)[0];
+    const book = books.filter(book => book.id == id)[0];
     
     return (
       <>
-      
+      d
       <div className="container">
             <Link to ='/'>
                 <button className="btn">

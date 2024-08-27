@@ -33,8 +33,12 @@ const notesSlice = createSlice({
        },
 
        eraseNote: (notes, action) => {
-        return notes.filter(note => note.id != action.payload);
+        return notes.filter(note => note.id !== action.payload);
 
+       },
+
+       eraseBookNotes: (notes,action) => {
+        return notes.filter(note => note.book_id !== action.payload);
        }
        
   }
@@ -43,7 +47,7 @@ const notesSlice = createSlice({
 
 
         
-export const { addNotes, eraseNote } = notesSlice.actions;
+export const { addNotes, eraseNote, eraseBookNotes } = notesSlice.actions;
 
 export const selectNotes = state => state.notes;
 

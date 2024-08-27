@@ -8,7 +8,9 @@ function Book({book}) {
     function handleToggleRead(event, id) {
 
         event.preventDefault(); //prevent clicking other elements
-        dispatch(toggleRead(id));
+        dispatch(toggleRead(id)); //toggle read/unread 
+
+        
     }
 
     return (

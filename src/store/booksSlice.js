@@ -39,10 +39,11 @@ const booksSlice = createSlice({
     synopsis: "Shakespeare wrote 154 sonnets published in his 'quarto' in 1609, covering themes such as the passage of time, mortality, love, beauty, infidelity, and jealousy. The first 126 of Shakespeare's sonnets are addressed to a young man, and the last 28 addressed to a woman – a mysterious 'dark lady'."
   }
   ],
+  //list of reducers used in related components for certain functionality 
   reducers: {
        addBook: (books, action) => {
          let newBook = action.payload; //getting new book to get its id 
-         newBook.id = books.length ? Math.max(...books.map(book => action.payload)) + 1 : 1; //getting th highest number of id
+         newBook.id = books.length ? Math.max(...books.map(book => book.id)) + 1 : 1; //getting th highest number of id
          books.push(newBook);
        },
 
@@ -53,8 +54,8 @@ const booksSlice = createSlice({
 
        toggleRead: (books, action) => {
         books.map(book => {
-          if(book.id == action.payload){
-            book.isRead = !book.isRead;
+          if(book.id === action.payload){
+              book.isRead = !book.isRead;
           }
         });
        }

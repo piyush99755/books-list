@@ -12,7 +12,7 @@ function AddBookPage() {
     function handleAddBook(event) {
         event.preventDefault();
        
-
+        //creating new book object with following properties 
         const newBook = {
             title: document.querySelector('input[name=title]').value,
             cover: document.querySelector('input[name=cover]').value,
@@ -60,7 +60,7 @@ function AddBookPage() {
                     type="text" name="synopsis" placeholder="Add a synopsis..." />
                 </div>
                 
-                <button onClick ={(event) => handleAddBook(event)}className="btn btn-block">Save Book</button>
+                <button onClick ={(event) => handleAddBook(event)} className="btn btn-block">Save Book</button>
             </form>
 
         </div>
