@@ -2,7 +2,10 @@
 import {useState} from 'react';
 import FullPageLoader from '../FullPageLoader.js';
 import { auth } from '../../firebase/config.js';
-import {  createUserWithEmailAndPassword } from "firebase/auth";
+import {  createUserWithEmailAndPassword, 
+          sendPasswordResetEmail, 
+          signInWithEmailAndPassword,
+          } from "firebase/auth";
 
 
 function LoginPage() {
@@ -19,10 +22,10 @@ function LoginPage() {
   function handleSignup(event){
       event.preventDefault();
 
-      //using in-built function from firebase..
+      //using in-built function from firebase for sign-up authentication..
       createUserWithEmailAndPassword(auth, userCredentials.email, userCredentials.password)
         .then((userCredential) => {
-             
+             setError('');
             const user = userCredential.user;
          
         })
@@ -30,7 +33,28 @@ function LoginPage() {
             
             setError(error.message);
         });
-  }
+    }
+    function handleSignin(event) {
+        event.preventDefault();
+        //using in-built function from firebase for sign-in authentication..
+       signInWithEmailAndPassword(auth, userCredentials.email, userCredentials.password)
+       .then((userCredential) => {
+           
+           const user = userCredential.user;
+           console.log(`${user}: login sucessfully.`)
+           
+       })
+       .catch((error) => {
+           setError(error.message);
+       });
+    }
+
+    function handlePasswordReset() {
+        const email = prompt('Please enter your email');
+        sendPasswordResetEmail(auth, email);
+        alert('Check your email for password reset link');
+    }
+
     return (
       <>
         { isLoading && <FullPageLoader></FullPageLoader> }
@@ -62,7 +86,7 @@ function LoginPage() {
                   </div>
                   {
                     loginType == 'login' ?
-                    <button className="active btn btn-block">Login</button>
+                    <button onClick = {(event) => {handleSignin(event)}} className="active btn btn-block">Login</button>
                     : 
                     <button onClick={(event) => {handleSignup(event)}} className="active btn btn-block">Sign Up</button>
                   }
@@ -75,7 +99,7 @@ function LoginPage() {
                   }
                   
 
-                  <p className="forgot-password">Forgot Password?</p>
+                  <p onClick = {handlePasswordReset} className="forgot-password">Forgot Password?</p>
                   
               </form>
           </section>
