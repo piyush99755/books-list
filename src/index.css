@@ -17,6 +17,42 @@ body {
   align-items: center;
 }
 
+.full-page-loader {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.full-page-loader .lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.full-page-loader .lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #bcbcbc;
+  border-color: #bcbcbc transparent #bcbcbc transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /* form input */
 
 input:not([type="checkbox"]), textarea {
@@ -48,6 +84,8 @@ textarea {
 .add-form {
   margin-top: 40px;
 }
+
+
 .form-control {
   margin: 20px 0;
 }
@@ -92,6 +130,7 @@ input:focus {
   font-size: 18px;
   font-family: inherit;
 }
+
 .btn:focus {
   outline: none;
 }
@@ -113,6 +152,7 @@ input:focus {
   min-height: 300px;
   background-color: #faf8f2;
   padding: 30px;
+  padding-top: 60px;
   border-radius: 5px;
   position: relative;
   box-shadow: 0px 4px 11px 0px rgb(0 0 0 / 14%);
@@ -133,7 +173,8 @@ input:focus {
   right: 10px;
 }
 
-.container a.active button.btn   {
+.container a.active button.btn,
+.container .btn.active    {
   background: #1cab47;
   color: #fff;
 }
@@ -142,6 +183,11 @@ input:focus {
   margin-top: 0;
   background: #e3e3e3;
   color: #000;
+}
+
+.container button.btn.transparent {
+  background-color: transparent;
+  text-decoration: underline;
 }
 
 .container .header-btns button.btn {
@@ -330,6 +376,7 @@ table tr th {
 .single-book .book-details p {
   margin-bottom: 20px;
   max-width: 400px;
+  text-align: left;
 }
 
 .single-book .book-details .read-checkbox {
@@ -417,6 +464,10 @@ table tr th {
   margin-bottom: 12px;
 }
 
+.notes .note p {
+  text-align: left;
+}
+
 
 
 
@@ -431,4 +482,54 @@ table tr th {
   .books-list {
     grid-template-columns: 1fr;
   }
+}
+
+
+.login-page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-page h1, p {
+  text-align: center;
+}
+
+.login-page p {
+  margin-bottom: 24px;
+}
+
+.login-page .login-type {
+  text-align: center;
+
+}
+
+.login-page .add-form.login {
+  width: 600px;
+  max-width: 100%;
+}
+
+.login-page .add-form .error {
+  text-align: center;
+  color: red;
+  margin-top: 8px;
+}
+
+.login-page p.forgot-password {
+  margin-top: 12px;
+  color: #0000EE;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.login-page.container button.btn.selected    {
+  background: #3e3e3e;
+  color: #fff;
+}
+
+.login-page.container button.btn.login    {
+  background: #3e3e3e;
+  color: #fff;
 }
