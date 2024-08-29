@@ -7,12 +7,18 @@ import {  createUserWithEmailAndPassword,
           signInWithEmailAndPassword,
           } from "firebase/auth";
 
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/usersSlice';
+
 
 function LoginPage() {
+
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [loginType, setLoginType] = useState('login');
   const [userCredentials, setUserCredentials] = useState({}); //userCredentials to handle multiple inputs of form
   const [error, setError] = useState(''); 
+  
 
   function handleCredentails(event) {
     setUserCredentials({...userCredentials, [event.target.name] : event.target.value})
@@ -21,12 +27,14 @@ function LoginPage() {
    
   function handleSignup(event){
       event.preventDefault();
+      setError('');
 
       //using in-built function from firebase for sign-up authentication..
       createUserWithEmailAndPassword(auth, userCredentials.email, userCredentials.password)
         .then((userCredential) => {
-             setError('');
-            const user = userCredential.user;
+             
+            console.log(userCredential.user);
+            dispatch(setUser({id: userCredential.user.uid, email : userCredential.user.email}));
          
         })
         .catch((error) => {
@@ -42,6 +50,7 @@ function LoginPage() {
            
            const user = userCredential.user;
            console.log(`${user}: login sucessfully.`)
+           dispatch(setUser({id: userCredential.user.uid, email : userCredential.user.email}));
            
        })
        .catch((error) => {
