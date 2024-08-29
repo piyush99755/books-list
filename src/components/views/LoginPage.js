@@ -5,7 +5,7 @@ import { auth } from '../../firebase/config.js';
 import {  createUserWithEmailAndPassword, 
           sendPasswordResetEmail, 
           signInWithEmailAndPassword,
-          } from "firebase/auth";
+          onAuthStateChanged} from "firebase/auth";
 
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/usersSlice';
@@ -14,11 +14,22 @@ import { setUser } from '../../store/usersSlice';
 function LoginPage() {
 
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [loginType, setLoginType] = useState('login');
   const [userCredentials, setUserCredentials] = useState({}); //userCredentials to handle multiple inputs of form
   const [error, setError] = useState(''); 
-  
+
+   onAuthStateChanged(auth, (user) => {
+    if (user) {
+      dispatch(setUser({id : user.uid , email: user.email}));
+      
+    } else {
+        dispatch(setUser(null));
+    }
+    //loading loader on state change 
+    if(isLoading) {setIsLoading(false)};
+  });
+   
 
   function handleCredentails(event) {
     setUserCredentials({...userCredentials, [event.target.name] : event.target.value})
@@ -30,13 +41,13 @@ function LoginPage() {
       setError('');
 
       //using in-built function from firebase for sign-up authentication..
+
       createUserWithEmailAndPassword(auth, userCredentials.email, userCredentials.password)
-        .then((userCredential) => {
-             
-            console.log(userCredential.user);
-            dispatch(setUser({id: userCredential.user.uid, email : userCredential.user.email}));
-         
-        })
+
+         //this has been implemented through state observer function from fire base
+        /* .then((userCredential) => {
+             dispatch(setUser({id: userCredential.user.uid, email : userCredential.user.email}));
+         }) */
         .catch((error) => {
             
             setError(error.message);
@@ -44,15 +55,15 @@ function LoginPage() {
     }
     function handleSignin(event) {
         event.preventDefault();
+
         //using in-built function from firebase for sign-in authentication..
-       signInWithEmailAndPassword(auth, userCredentials.email, userCredentials.password)
-       .then((userCredential) => {
-           
-           const user = userCredential.user;
-           console.log(`${user}: login sucessfully.`)
+
+        signInWithEmailAndPassword(auth, userCredentials.email, userCredentials.password)
+
+        //this has been implemented through state observer function from fire base
+        /* .then((userCredential) => {
            dispatch(setUser({id: userCredential.user.uid, email : userCredential.user.email}));
-           
-       })
+        }) */ 
        .catch((error) => {
            setError(error.message);
        });

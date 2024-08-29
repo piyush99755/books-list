@@ -19,8 +19,8 @@ function App() {
               <Route path = "add-book" element = {<AddBookPage />}/>
               <Route path = "book/:id" element = {<SingleBookPage />}/>
             </Routes>
-            </BrowserRouter> :
-
+            </BrowserRouter> 
+            :
             <LoginPage />
       }
     

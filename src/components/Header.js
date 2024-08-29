@@ -1,9 +1,22 @@
 import {NavLink} from 'react-router-dom';
-
+import { signOut } from "firebase/auth";
+import { auth } from '../firebase/config';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/usersSlice';
 
 
 
 function Header({pageTitle}) {
+
+   function handleSignout() {
+    signOut(auth).then(() => {
+      //cleaning state by setting user to null on sign out..
+      dispatchEvent(setUser(null));
+      
+    }).catch((error) => {
+      console.log(error.msg);
+    });
+   }
 
     return (
       <>
@@ -23,6 +36,10 @@ function Header({pageTitle}) {
                         Add Book +
                     </button>
                   </NavLink>   
+
+                  <button onClick = {handleSignout} className="btn transparent">
+                      Logout
+                    </button>
 
 
                     
