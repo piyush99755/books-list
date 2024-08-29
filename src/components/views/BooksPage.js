@@ -1,38 +1,29 @@
 import Header from '../Header';
 import Book  from '../Book';
-import { selectBooks } from '../../store/booksSlice';
-import { useSelector } from 'react-redux';
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { selectBooks, fetchBooks } from '../../store/booksSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { db } from '../../firebase/config';
+import { selectUsers } from '../../store/usersSlice';
+
 
 function BooksPage() {
-
-  //const books = useSelector(selectBooks);//getting books through state created in redux...
-  const[books, setBooks] = useState([]);
-  const pageTitle = "📖 Book List with React Router & Redux Toolkit";
+   
+   const dispatch = useDispatch();
+   const books = useSelector(selectBooks).books; //getting books through state created in redux...
+   const pageTitle = "📖 Book List with React Router & Redux Toolkit";
+   const bookStatus = useSelector(selectBooks).status; //getting books status from books slice...
   
   //using useEffect() hook to fetch data ...
   useEffect( () => {
-    const fetchBooks = async() => {
-      const q = query(collection(db, "books"));
-      const querySnapshot = await getDocs(q);
-      let booksList = [];
-      querySnapshot.forEach((doc) => {
-        booksList.push({id:doc.id, ...doc.data()});
-      })
-      setBooks(booksList);
-      
+    //to avoid infinite loop , excute dispatch action only in idle status
+    if(bookStatus == 'idle'){
+      dispatch(fetchBooks());
     }
-    fetchBooks();
-  
+   
       
   },[]);
- 
-
-
-    
-    return (
+   
+  return (
       <>
         <div className="container">
             <Header pageTitle={pageTitle} />
