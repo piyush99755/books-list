@@ -12,7 +12,7 @@ function SingleBookPage() {
 
     function handleEraseBook(id) {
         dispatch(eraseBook(id));
-        dispatch(eraseBookNotes(id));
+        //dispatch(eraseBookNotes(id));
         navigate('/');
     }
 
