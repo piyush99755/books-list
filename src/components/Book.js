@@ -5,10 +5,10 @@ import { toggleRead } from '../store/booksSlice';
 function Book({book}) {
     const dispatch = useDispatch();
 
-    function handleToggleRead(event, id) {
+    function handleToggleRead(event, id, isRead) {
 
         event.preventDefault(); //prevent clicking other elements
-        dispatch(toggleRead(id)); //toggle read/unread 
+        dispatch(toggleRead({id, isRead})); //toggle read/unread 
 
         
     }
@@ -27,7 +27,7 @@ function Book({book}) {
               <div className="book-cover">
                   <img src={book.cover} alt = ''/>
   
-                  <button onClick = {(event) => handleToggleRead(event, book.id)} className={book.isRead ? 'isRead' : ''}>
+                  <button onClick = {(event) => handleToggleRead(event, book.id, book.isRead)} className={book.isRead ? 'isRead' : ''}>
                       <i className="fa-solid fa-eye"></i>
                       <span>{ book.isRead ? "Already Read It" : "Haven't Read it yet" }</span>
                   </button>

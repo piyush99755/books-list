@@ -17,7 +17,7 @@ function SingleBookPage() {
     }
 
     const {id} = useParams(); 
-    const books = useSelector(selectBooks);//getting books through state created in redux...
+    const books = useSelector(selectBooks).books;//getting books through state created in redux...
     const book = books.filter(book => book.id == id)[0];
     
     return (
@@ -41,7 +41,7 @@ function SingleBookPage() {
                           <h4 className="book-author">{ book.author }</h4>
                           <p>{book.synopsis}</p>
                           <div className="read-checkbox">
-                              <input onClick={() => dispatch(toggleRead(book.id))} type="checkbox" defaultChecked={book.isRead} />
+                              <input onClick={() => dispatch(toggleRead({id: book.id, isRead: book.isRead}))} type="checkbox" defaultChecked={book.isRead} />
                               <label>{ book.isRead ? "Already Read It" : "Haven't Read it yet" }</label>
                           </div>
                           <div onClick = {() => handleEraseBook(book.id)} className="erase-book">

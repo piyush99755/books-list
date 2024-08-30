@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db , auth } from '.././firebase/config';
 
 const booksSlice = createSlice({
@@ -15,19 +15,20 @@ const booksSlice = createSlice({
          newBook.id = books.length ? Math.max(...books.map(book => book.id)) + 1 : 1; //getting th highest number of id
          books.push(newBook);
        },
+       
 
        eraseBook: (books, action) => {
         return books.filter(book => book.id != action.payload);
 
        },
 
-       toggleRead: (books, action) => {
+       /* toggleRead: (books, action) => {
         books.map(book => {
           if(book.id === action.payload){
               book.isRead = !book.isRead;
           }
         });
-       }
+       } */
   },
   extraReducers: (builder) => {
     builder
@@ -48,6 +49,23 @@ const booksSlice = createSlice({
         state.error = action.error.payload;
 
       })
+
+      .addCase(toggleRead.fulfilled, (state, action) => {
+        //updating toggle read state
+        state.books.map(book => {
+          if(book.id == action.payload){
+            book.isRead = !book.isRead;
+          }
+        })
+
+      })
+      
+
+      .addCase(toggleRead.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.payload;
+
+      })
       
   }
 
@@ -55,7 +73,7 @@ const booksSlice = createSlice({
 })
 
 
-export const { addBook, eraseBook, toggleRead } = booksSlice.actions;
+export const { addBook, eraseBook } = booksSlice.actions;
 
 export const selectBooks = state => state.books;
 
@@ -71,3 +89,11 @@ export const fetchBooks = createAsyncThunk('books/fetchBooks', async () => {
       })
       return booksList;
 });
+
+export const toggleRead = createAsyncThunk('books/toggleRead', async (payload) => {
+  const bookRef = doc(db, 'books', payload.id); 
+  await updateDoc(bookRef, {
+    isRead :!payload.isRead
+  });
+  return payload.id;
+}); 
