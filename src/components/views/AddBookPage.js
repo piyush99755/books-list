@@ -23,13 +23,20 @@ function AddBookPage() {
         }
 
         if(newBook.title && newBook.cover && newBook.author){
-            dispatch(addBook(newBook));
-            alert('New Book Added');
-            navigate('/');
+            dispatch(addBook(newBook)).then(response =>{
+                if(response.error)
+                {
+                    alert('Something went wrong!');
+                }
+                else{
+                    alert('New Book Added');
+                    navigate('/');
 
-        }else{
-            alert('Fill out all required fields');
-        }
+                }
+                });
+            }else{
+               alert('Fill out all required fields');
+            }
 
         
     }

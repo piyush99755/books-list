@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, query, where, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, updateDoc, deleteDoc, addDoc } from "firebase/firestore";
 import { db , auth } from '.././firebase/config';
+
 
 const booksSlice = createSlice({
   name: 'books',
@@ -10,25 +11,12 @@ const booksSlice = createSlice({
   },
   //list of reducers used in related components for certain functionality 
   reducers: {
-       addBook: (books, action) => {
+       /* addBook: (books, action) => {
          let newBook = action.payload; //getting new book to get its id 
          newBook.id = books.length ? Math.max(...books.map(book => book.id)) + 1 : 1; //getting th highest number of id
          books.push(newBook);
        },
-       
-
-       /* eraseBook: (books, action) => {
-        return books.filter(book => book.id != action.payload);
-
-       }, */
-
-       /* toggleRead: (books, action) => {
-        books.map(book => {
-          if(book.id === action.payload){
-              book.isRead = !book.isRead;
-          }
-        });
-       } */
+        */
   },
   extraReducers: (builder) => {
     builder
@@ -66,9 +54,14 @@ const booksSlice = createSlice({
         state.error = action.error.payload;
 
       })
+      .addCase(eraseBook.pending, (state, action) => {
+        state.status = 'loading';
+        console.log('loading');
+      })
 
       .addCase(eraseBook.fulfilled, (state, action) => {
         state.books = state.books.filter(book => book.id != action.payload);
+        
         console.log('deleted');
 
 
@@ -80,15 +73,32 @@ const booksSlice = createSlice({
         state.error = action.error.payload;
 
       })
+
+      .addCase(addBook.pending, (state, action) => {
+        state.status = 'loading';
+        console.log('loading');
+      })
+
+      .addCase(addBook.fulfilled, (state, action) => {
+        state.books.push(action.payload);
+        console.log('successfully added!!!');
+
+
+      })
+      
+
+      .addCase(addBook.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.payload;
+
+      })
+      
       
       
   }
 
   
 })
-
-
-export const { addBook } = booksSlice.actions;
 
 export const selectBooks = state => state.books;
 
@@ -118,3 +128,14 @@ export const eraseBook = createAsyncThunk('books/eraseBook', async (payload) => 
   return payload;
   
 }); 
+
+export const addBook = createAsyncThunk('books/addBook', async (payload) => {
+  let newBook = payload;
+  newBook.user_id = auth.currentUser.uid;
+  const docRef = await addDoc(collection(db, "books"), newBook);
+  newBook.id = docRef.id;
+  return newBook;
+  
+}); 
+
+

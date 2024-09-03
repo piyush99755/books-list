@@ -1,8 +1,12 @@
 import Notes from '../Notes';
 import {useParams, Link, useNavigate} from 'react-router-dom';
-import { selectBooks, eraseBook, toggleRead } from '../../store/booksSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import {eraseBook, toggleRead } from '../../store/booksSlice';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { eraseBookNotes } from '../../store/notesSlice';
+import { useEffect } from 'react';
+import { doc, getDoc } from "firebase/firestore";
+import {db} from '../../firebase/config';
  
 
 function SingleBookPage() {
@@ -16,9 +20,40 @@ function SingleBookPage() {
         navigate('/');
     }
 
+    function handleToggleRead(info) {
+      dispatch(toggleRead({id: info.id, isRead: info.isRead})) //sending current state of book 
+      setBook({...book, isRead: !info.isRead}); // overriding isRead property of book 
+
+    }
+    const fetchBook = async(book_id) => {
+      try{
+        const docRef = doc(db, "books", book_id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+           setBook({...docSnap.data(), id:docSnap.id}); // copying all properties from docSnap into new object and overriding its id..
+        } 
+        setFetchStatus('success');
+
+      } catch(error){
+        console.log('Error', error);
+        setFetchStatus('error');
+
+      }
+
+    }
+
     const {id} = useParams(); 
-    const books = useSelector(selectBooks).books;//getting books through state created in redux...
-    const book = books.filter(book => book.id == id)[0];
+    
+    const [book, setBook] = useState('');
+    const [fetchStatus, setFetchStatus] = useState('idle');
+
+    useEffect(() => {
+      if(fetchStatus == 'idle') {
+        fetchBook(id);
+      }
+      
+    }, []);
     
     return (
       <>
@@ -41,7 +76,7 @@ function SingleBookPage() {
                           <h4 className="book-author">{ book.author }</h4>
                           <p>{book.synopsis}</p>
                           <div className="read-checkbox">
-                              <input onClick={() => dispatch(toggleRead({id: book.id, isRead: book.isRead}))} type="checkbox" defaultChecked={book.isRead} />
+                              <input onClick={() =>handleToggleRead({id: book.id, isRead: book.isRead})} type="checkbox" defaultChecked={book.isRead} />
                               <label>{ book.isRead ? "Already Read It" : "Haven't Read it yet" }</label>
                           </div>
                           <div onClick = {() => handleEraseBook(book.id)} className="erase-book">
