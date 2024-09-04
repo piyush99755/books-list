@@ -85,13 +85,22 @@ function SingleBookPage() {
                       </div>
                       
               </div>
-  
               <Notes bookId = {id} />
-  
-              </div> :
+              </div>
+
+              :fetchStatus == 'success' ?
               <div>
                 <p>Book doesn't exist.</p>
+              </div> 
+
+              : fetchStatus == 'error' ?
+              <div>
+              <p>Error fetching book.</p>
+              </div> :
+              <div>
+              <p>Loading...</p>
               </div>
+              
             }
             
             
