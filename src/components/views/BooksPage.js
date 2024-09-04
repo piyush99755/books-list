@@ -2,8 +2,7 @@ import Header from '../Header';
 import Book  from '../Book';
 import { selectBooks, fetchBooks } from '../../store/booksSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { selectUsers } from '../../store/usersSlice';
+import { useEffect} from 'react';
 import { Link } from 'react-router-dom';
 
 function BooksPage() {
@@ -42,13 +41,7 @@ function BooksPage() {
                     <div>Loading...</div> 
                     
                 }
-                
-               
-                
-
-              
-                
-            </div>
+              </div>
         </div>
       </>
     )

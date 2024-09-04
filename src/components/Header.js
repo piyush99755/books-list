@@ -1,7 +1,6 @@
 import {NavLink} from 'react-router-dom';
 import { signOut } from "firebase/auth";
 import { auth } from '../firebase/config';
-import { useDispatch } from 'react-redux';
 import { setUser } from '../store/usersSlice';
 
 

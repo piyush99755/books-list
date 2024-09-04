@@ -43,11 +43,10 @@ function LoginPage() {
       //using in-built function from firebase for sign-up authentication..
 
       createUserWithEmailAndPassword(auth, userCredentials.email, userCredentials.password)
-
-         //this has been implemented through state observer function from fire base
-        /* .then((userCredential) => {
-             dispatch(setUser({id: userCredential.user.uid, email : userCredential.user.email}));
-         }) */
+          //this has been implemented through state observer function from fire base
+          /* .then((userCredential) => {
+              dispatch(setUser({id: userCredential.user.uid, email : userCredential.user.email}));
+          }) */
         .catch((error) => {
             
             setError(error.message);

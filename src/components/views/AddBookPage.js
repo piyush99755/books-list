@@ -31,7 +31,6 @@ function AddBookPage() {
                 else{
                     alert('New Book Added');
                     navigate('/');
-
                 }
                 });
             }else{

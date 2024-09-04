@@ -9,25 +9,20 @@ const booksSlice = createSlice({
     books: [],
     status: 'idle'
   },
-  //list of reducers used in related components for certain functionality 
+  
   reducers: {
-       /* addBook: (books, action) => {
-         let newBook = action.payload; //getting new book to get its id 
-         newBook.id = books.length ? Math.max(...books.map(book => book.id)) + 1 : 1; //getting th highest number of id
-         books.push(newBook);
-       },
-        */
+      
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchBooks.pending, (state, action) => {
         state.status = 'loading';
-        console.log('loading');
+        
       })
       
       .addCase(fetchBooks.fulfilled, (state, action) => {
         state.books = action.payload;
-        console.log('success');
+        
 
       })
       
@@ -39,7 +34,6 @@ const booksSlice = createSlice({
       })
 
       .addCase(toggleRead.fulfilled, (state, action) => {
-        //updating toggle read state
         state.books.map(book => {
           if(book.id == action.payload){
             book.isRead = !book.isRead;
@@ -56,15 +50,12 @@ const booksSlice = createSlice({
       })
       .addCase(eraseBook.pending, (state, action) => {
         state.status = 'loading';
-        console.log('loading');
+        
       })
 
       .addCase(eraseBook.fulfilled, (state, action) => {
         state.books = state.books.filter(book => book.id != action.payload);
         
-        console.log('deleted');
-
-
       })
       
 
@@ -76,14 +67,10 @@ const booksSlice = createSlice({
 
       .addCase(addBook.pending, (state, action) => {
         state.status = 'loading';
-        console.log('loading');
       })
 
       .addCase(addBook.fulfilled, (state, action) => {
         state.books.push(action.payload);
-        console.log('successfully added!!!');
-
-
       })
       
 
@@ -93,11 +80,8 @@ const booksSlice = createSlice({
 
       })
       
-      
-      
   }
 
-  
 })
 
 export const selectBooks = state => state.books;

@@ -13,10 +13,12 @@ function SingleBookPage() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {id} = useParams(); 
+    const [book, setBook] = useState('');
+    const [fetchStatus, setFetchStatus] = useState('idle');
 
     function handleEraseBook(id) {
         dispatch(eraseBook(id));
-        //dispatch(eraseBookNotes(id));
         navigate('/');
     }
 
@@ -36,17 +38,14 @@ function SingleBookPage() {
         setFetchStatus('success');
 
       } catch(error){
-        console.log('Error', error);
+        alert('Error', error);
         setFetchStatus('error');
 
       }
 
     }
 
-    const {id} = useParams(); 
     
-    const [book, setBook] = useState('');
-    const [fetchStatus, setFetchStatus] = useState('idle');
 
     useEffect(() => {
       if(fetchStatus == 'idle') {
