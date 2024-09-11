@@ -11,7 +11,7 @@ function App() {
   const user = useSelector(selectUsers);
   return (
     <>
-      {user.currentUser ?
+     
               
             <BrowserRouter>
             <Routes>
@@ -21,9 +21,8 @@ function App() {
 
             </Routes>
             </BrowserRouter> 
-            :
-            <LoginPage />
-      }
+           
+      
     
         
         
