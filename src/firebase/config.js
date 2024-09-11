@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth';
 import { getFirestore } from "firebase/firestore";
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyCwD7UKuHzCi8oIwTYSZkbVmm75K6PyRAo",
   authDomain: "books-list-with-firebase-73747.firebaseapp.com",
