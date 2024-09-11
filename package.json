@@ -2,6 +2,7 @@
   "name": "books-list",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://piyush99755.github.io/books-list/",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^5.17.0",
@@ -10,12 +11,18 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.2",
+    "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
